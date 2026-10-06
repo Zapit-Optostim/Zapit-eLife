@@ -1,12 +1,11 @@
-\documentclass{preprint-raac}
+\documentclass[9pt,lineno]{elife}
 
-
-\usepackage{pifont} % for fonts in final table of supp.tex
+\usepackage{float}    % for [H] float placement
+\usepackage{pifont}   % for \ding in the supplementary comparison table
 \usepackage{makecell}
+\usepackage{orcidlink}
 
 % Define directories which contain figures
-\usepackage{graphicx}
-\usepackage{marvosym}
 \graphicspath{
             {Figures/}
             {Figures/PSF}
@@ -16,25 +15,14 @@
             {Figures/ML_Exp_Verification}
             }
 
-% For the author contributions grid
-\PassOptionsToPackage{svgnames}{xcolor}
-\usepackage{tikz}
-\usetikzlibrary{calc,intersections}
-% fonts: you can uncomment this if you want to use pdflatex instead of xelatex (see options in Menu)
-%\usepackage{fontspec}
-%\setmainfont{NewComputerModernSans08}
-
-\usepackage{orcidlink}
-
 %%
 % Preamble: title and author details
 \title{Open source laser-scanning photostimulation for neuroscience with Zapit}
 
-
-\author[*1]{Michael Lohse\orcidlink{0000-0001-8864-0704}}
-\author[*1]{Oliver M Gauld\orcidlink{0000-0002-3317-2250}}
-\author[*1,2]{Maja T Quigley\orcidlink{0009-0003-7524-5221}}
-\author[*3]{Ainiah Masood\orcidlink{0009-0001-1957-6531}}
+\author[1\authfn{1}]{Michael Lohse\orcidlink{0000-0001-8864-0704}}
+\author[1\authfn{1}]{Oliver M Gauld\orcidlink{0000-0002-3317-2250}}
+\author[1,2\authfn{1}]{Maja T Quigley\orcidlink{0009-0003-7524-5221}}
+\author[3\authfn{1}]{Ainiah Masood\orcidlink{0009-0001-1957-6531}}
 \author[1]{Chaofei Bao\orcidlink{0000-0002-8794-8712}}
 \author[1]{Jingjie Li\orcidlink{0000-0002-1605-0518}}
 \author[1]{Nathaniel J Miska\orcidlink{0000-0001-8587-4919}}
@@ -49,22 +37,18 @@
 \author[1]{Jeffrey C Erlich\orcidlink{0000-0001-9073-7986}}
 \author[1]{Sonja B Hofer\orcidlink{0000-0003-4921-8521}}
 \author[1]{Thomas D Mrsic-Flogel\orcidlink{0000-0002-8947-408X}}
-\author[$\ddagger$3\Letter]{Philip Coen\orcidlink{0000-0003-1495-1061}}
-\author[$\ddagger$1\Letter]{Robert AA Campbell\orcidlink{0000-0002-8330-4477}}
+\author[3*\authfn{2}]{Philip Coen\orcidlink{0000-0003-1495-1061}}
+\author[1*\authfn{2}]{Robert AA Campbell\orcidlink{0000-0002-8330-4477}}
 
 \affil[1]{Sainsbury Wellcome Centre, UCL, London, UK}
 \affil[2]{University of Cambridge, Cambridge, UK}
 \affil[3]{Department of Cell and Developmental Biology, UCL, London, UK}
-\affil[*]{These authors contributed equally}
-\affil[$\ddagger$]{These authors contributed equally}
-%% Corresponding author
-\corrauthor{P Coen \url{p.coen@ucl.ac.uk} \\
-RAA Campbell \url{rob.campbell@ucl.ac.uk}}
 
-%% Abbreviated author list for the running footer
-\runningauthor{Lohse, Gauld, Quigley, Masood et al.}
+\corr{p.coen@ucl.ac.uk}{PC}
+\corr{rob.campbell@ucl.ac.uk}{RAAC}
 
-\addbibresource{references.bib}
+\contrib[\authfn{1}]{These authors contributed equally to this work}
+\contrib[\authfn{2}]{These authors contributed equally to this work}
 
 \begin{document}
 
@@ -85,7 +69,7 @@ Zapit is a novel and innovative tool with the potential to democratize laser-sca
 
 
 
-\keywords{Optogenetics, Neuroscience, Software Tool, Optics, Open Source}
+% Keywords (enter in the eLife submission system): Optogenetics, Neuroscience, Software Tool, Optics, Open Source
 \end{abstract}
 
 %%
@@ -94,16 +78,16 @@ Zapit is a novel and innovative tool with the potential to democratize laser-sca
 \section{Introduction}
 \label{sec:introduction}
 
-Optogenetics is now the principal experimental tool for manipulating neural activity in systems neuroscience due to its high temporal precision, non-invasive options, reversibility, and genetically and spatially restricted specificity (\cite{Boyden2005Millisecond-timescaleActivity,OConnor2009ReverseBrain, Hausser2014Optogenetics:Light, Li2019SpatiotemporalCircuits,Emiliani2022OptogeneticsSystems.}).
-Optical access to the brain to stimulate opsins is predominantly achieved through chronically implanted fibers (e.g. \cite{Mayrhofer2019DistinctTransformation,Babl2019TheInterneurons,Lohse2021SubcorticalMice,Duan2021ATask,Emiliani2022OptogeneticsSystems.}), or implanting a window over the cortical site (e.g. \cite{Schneider2018AMovement,Liu2016Cortico-fugalBehaviour}).
+Optogenetics is now the principal experimental tool for manipulating neural activity in systems neuroscience due to its high temporal precision, non-invasive options, reversibility, and genetically and spatially restricted specificity (\citealp{Boyden2005Millisecond-timescaleActivity,OConnor2009ReverseBrain, Hausser2014Optogenetics:Light, Li2019SpatiotemporalCircuits,Emiliani2022OptogeneticsSystems.}).
+Optical access to the brain to stimulate opsins is predominantly achieved through chronically implanted fibers (e.g. \citealp{Mayrhofer2019DistinctTransformation,Babl2019TheInterneurons,Lohse2021SubcorticalMice,Duan2021ATask,Emiliani2022OptogeneticsSystems.}), or implanting a window over the cortical site (e.g. \citealp{Schneider2018AMovement,Liu2016Cortico-fugalBehaviour}).
 Implanted fibers allow for targeted light delivery in both head-fixed and freely moving behavioral paradigms and enable access to deep brain areas.
 However, the physical footprint and chronic nature of implants can restrict manipulation to a predetermined and limited number of sites.
 
 
-In mice, the skull is thin enough ($\sim$250~$\mu m$; \cite{Ghanbari2019Craniobot:Microsurgeries}) to be remarkably transparent (\cite{Steinzeig2017ChronicMice}).
+In mice, the skull is thin enough ($\sim$250~$\mu m$; \citealp{Ghanbari2019Craniobot:Microsurgeries}) to be remarkably transparent (\citealp{Steinzeig2017ChronicMice}).
 This transcranial optical access allows for non-invasive, laser-scanning (random access) optogenetic photostimulation across the entire dorsal cortical surface.
 Various approaches exist to achieve this goal.
-An optical fiber can be mounted on a motorized micro-drive (\cite{Zatka-Haas2021SensoryDecision}), a digital micro-mirror device (DMD, \cite{Allen2017ApplicationSignaling}) can project arbitrary illumination patterns (e.g. \cite{Chong2020ManipulatingPerception}), or a pair of galvanometric scan mirrors (galvos) can direct a focused laser beam to specified positions on the skull (\cite{Guo2014FlowMice,Li2016RobustPlanning,Heindorf2018MouseFeedback,Inagaki2018Low-dimensionalCortex,Pinto2019Task-DependentRegions,Keller2020FeedbackCortex,Esmaeili2021RapidResponse,Voitov2022CorticalMemory,Pinto2022MultipleCortex,Coen2023MouseDecisions,Gauld2025AActions}).
+An optical fiber can be mounted on a motorized micro-drive (\citealp{Zatka-Haas2021SensoryDecision}), a digital micro-mirror device (DMD, \citealp{Allen2017ApplicationSignaling}) can project arbitrary illumination patterns (e.g. \citealp{Chong2020ManipulatingPerception}), or a pair of galvanometric scan mirrors (galvos) can direct a focused laser beam to specified positions on the skull (\citealp{Guo2014FlowMice,Li2016RobustPlanning,Heindorf2018MouseFeedback,Inagaki2018Low-dimensionalCortex,Pinto2019Task-DependentRegions,Keller2020FeedbackCortex,Esmaeili2021RapidResponse,Voitov2022CorticalMemory,Pinto2022MultipleCortex,Coen2023MouseDecisions,Gauld2025AActions}).
 A galvanometric approach to laser targeting offers the best utility-to-affordability trade-off: scanners are much faster than motorized drives, and because galvo mirrors effectively direct all light to the target site, the required laser power is much lower than a DMD.
 The high speed of the scanners nonetheless allows the experimenter to silence multiple locations near simultaneously.
 
@@ -113,8 +97,8 @@ This represents a significant barrier, especially for newly established research
 This is further compounded if the experimental aims differ from the original publication, or if specific parts are unavailable or custom-made.
 Therefore, despite its utility and potential, dissemination of laser-scanning photostimulation technology throughout the neuroscientific community has been limited.
 
-Community-targeted versions of  intricate experimental techniques facilitate widespread adoption: recent examples include comprehensive protocols and software tools for widefield calcium imaging (\cite{Couto2021ChronicBehavior}) and two-photon all-optical interrogation (\cite{Russell2022All-opticalMice}).
-Furthermore, the widespread success of open-source hardware tools such as  `Open-Ephys' (\cite{Siegle2017OpenElectrophysiology}) and the `Pulse-Pal' pulse generator (\cite{Sanders2014ABehavior}) demonstrate how accessible open-source versions of existing approaches can have a transformative effect on experimental neuroscience.
+Community-targeted versions of  intricate experimental techniques facilitate widespread adoption: recent examples include comprehensive protocols and software tools for widefield calcium imaging (\citealp{Couto2021ChronicBehavior}) and two-photon all-optical interrogation (\citealp{Russell2022All-opticalMice}).
+Furthermore, the widespread success of open-source hardware tools such as  `Open-Ephys' (\citealp{Siegle2017OpenElectrophysiology}) and the `Pulse-Pal' pulse generator (\citealp{Sanders2014ABehavior}) demonstrate how accessible open-source versions of existing approaches can have a transformative effect on experimental neuroscience.
 
 Here we present `Zapit', an open-source galvo-based photostimulation system.
 Zapit integrates both hardware and software into a user-friendly experimental tool with functionality beyond that of any published system.
@@ -122,7 +106,7 @@ It features a low-cost design based on commercially available components, with s
 The modular hardware design allows users to modify the system to their experimental needs, including adaptations that support several stimulation wavelengths.
 The accompanying software facilitates semi-automated system calibration, flexible stimulus design and delivery,  and is maintained by a community of developers and experimentalists.
 The system can interface with a range of programming languages for further integration into existing behavioural and experimental protocols.
-Through electrophysiological recordings, we confirm that Zapit's flexible and accessible design matches the spatiotemporal resolution of existing laser-scanning solutions (\cite{Pinto2022MultipleCortex,Guo2014FlowMice,Li2019SpatiotemporalCircuits}).
+Through electrophysiological recordings, we confirm that Zapit's flexible and accessible design matches the spatiotemporal resolution of existing laser-scanning solutions (\citealp{Pinto2022MultipleCortex,Guo2014FlowMice,Li2019SpatiotemporalCircuits}).
 Finally, we present proof-of-principle experiments demonstrating that Zapit can evoke robust effects across different sensory and motor systems in awake behaving mice, highlighting the utility and effectiveness of the system in revealing causal links between cortical areas and behavior.
 % ---- end introduction.tex ----
 % ---- begin results.tex ----
@@ -142,7 +126,7 @@ Calibration takes $\sim$1 minute and involves two steps (Figure~\ref{fig:operati
 \textbf{1} mapping scanner positions to pixel-space in the camera image, and \textbf{2} mapping stereotaxic coordinates onto the image of the exposed skull.
 Once calibrated, the beam can be targeted via stereotaxic coordinates, and a simple API allows the user to integrate stimulation into an experimental paradigm.
 The software supports stimulation of multiple locations in a given experimental trial, with each location stimulated sequentially at a specified frequency (40~Hz in experiments described here).
-The laser intensity ramps down at trial end to limit rebound effects (\cite{Li2019SpatiotemporalCircuits}).
+The laser intensity ramps down at trial end to limit rebound effects (\citealp{Li2019SpatiotemporalCircuits}).
 Detailed build instructions, operating guidelines and support are available via our \href{https://github.com/Zapit-Optostim/zapit}{GitHub} repository (Figure~\ref{fig:operating_principle_01}D).
 
 \begin{figure}[h]
@@ -185,7 +169,7 @@ An MF525-39 emission filter in front of the camera allows visualization of autof
 We modelled a Zapit variant with an f=150~mm objective in Zemax and calculated the theoretical laser spot as having a PSF with a FWHM of 74~\textmu m.
 We measured the true PSF full width half max as 91~\textmu m (Figure~\ref{fig:Fig2_supp}).
 Spot size scales linearly with focal length and so the f=200~mm lens described above would have a PSF of \textasciitilde{}120~µm.
-Nonetheless, resolution is limited by scattering which creates a much larger spot size within the brain (\textasciitilde{}1~mm radius, (\cite{Li2019SpatiotemporalCircuits})).
+Nonetheless, resolution is limited by scattering which creates a much larger spot size within the brain (\textasciitilde{}1~mm radius, (\citealp{Li2019SpatiotemporalCircuits})).
 Since the beam diameter entering the scan lens is \textasciitilde{}0.8~mm, an f=200~mm objective will yield an excitation NA of about 0.002, meaning the beam is always in focus over the curved skull.
 The Rayleigh range ($Z_R$) defines the axial distance from focus where the beam diameter doubles; in our system $Z_R=37.6~mm$.
 
@@ -201,7 +185,7 @@ Future developments to Zapit's control code will facilitate this use-case.
 All parts, except for the laser and laser adaptor, are available from Thorlabs, with appropriate part numbers.
 Dashed arrows indicate where sections should be joined.
 A comprehensive parts list and assembly instructions with visual aids are available on \href{https://github.com/Zapit-Optostim/thorlabs-version/tree/main}{Github}.
-Readers unfamiliar with the basics of optical scanning can get more information from \cite{Schottdorf2025TWINKLE:Research}.
+Readers unfamiliar with the basics of optical scanning can get more information from \citealp{Schottdorf2025TWINKLE:Research}.
 \textbf{A}. Left side, middle and right side views of a fully-constructed Zapit system.
 Smaller letters correspond to individual sections below.
 \textbf{B}. Laser attached to custom adapter connected to associated right angled-mirror.
@@ -266,7 +250,7 @@ These can be useful for visual alignment checks.}
 
 \subsection{Software Design: defining stimulus locations}
 Stimulation target locations are defined in stereotaxic space and stored in a human-readable stimulus configuration file, which can be generated using the GUI (Figure~\ref{fig:stim_config_editor_01}A).
-This coordinate space is derived from the Allen Atlas (\cite{Wang2020TheAtlas}) zeroed to bregma (with bregma estimated at 5.4~mm AP in native space, as in \cite{Birman2023Pinpoint:Environment.}).
+This coordinate space is derived from the Allen Atlas (\citealp{Wang2020TheAtlas}) zeroed to bregma (with bregma estimated at 5.4~mm AP in native space, as in \citealp{Birman2023Pinpoint:Environment.}).
 Figure~\ref{fig:stim_config_editor_01}B shows an example of a finished stimulus set that includes unilateral, bilateral and multi-site stimulation conditions.
 
 The stimulus configuration GUI allows the user to define general stimulation parameters in addition to stimulus locations, including `Laser Power', `Rampdown' and `Stimulation Frequency'  (Figure~\ref{fig:stim_config_editor_01}C).
@@ -305,7 +289,7 @@ Precisely timed stimulation events are delivered in a trial-based paradigm using
 Analog outputs AO0 and AO1 drive the galvo mirrors, AO2 controls laser power, and AO3 drives the masking light.
 Trials can be optionally hardware-triggered via PFI0, and the system can be controlled remotely from MATLAB, Python, or Bonsai using \href{https://github.com/Zapit-Optostim/zapit-tcp-bridge}{Zapit's TCP/IP protocol} (Figure~\ref{fig:HardwareTriggering_01}B).
 Photostimulation ends with a gradual ramp-down in power (by default over a 250~ms time period) (Figure~\ref{fig:HardwareTriggering_01}D).
-This limits large rebounds in activity, which are common following photoinhibition cessation with light-sensitive opsins (\cite{Li2019SpatiotemporalCircuits}).
+This limits large rebounds in activity, which are common following photoinhibition cessation with light-sensitive opsins (\citealp{Li2019SpatiotemporalCircuits}).
 
 Zapit supports open-ended and duration-specific stimulation, with controllable stimulus features including stimulus duration, delay, and laser power.
 Usage of the API is \href{https://zapit.swcmicroscopy.com/running-experiments/matlab/running-an-experiment-in-matlab}{documented on GitBook} and \href{https://github.com/Zapit-Optostim/zapit/tree/main/examples}{examples are provided}.
@@ -416,7 +400,7 @@ We only analysed trials where the laser spot was targeted 0 - 1~mm from the reco
 Rebound was calculated as percentage of firing rate change during the 500~ms following laser offset, relative to pre-laser baseline period.
 This metric was also calculated for control trials for comparison (black).
 Arrows indicate the median of each distribution.
-Data reanalysed from \cite{Gauld2025AActions}.}
+Data reanalysed from \citealp{Gauld2025AActions}.}
 \label{fig:ephys}
 \end{figure}
 
@@ -433,7 +417,7 @@ On laser-trials, putative excitatory neurons exhibited distance-dependent suppre
 Suppression was strongest when stimulation was delivered near the recording site and decreased progressively with increasing distance.
 However, we note that these silencing effects close to the recording site will be exacerbated by the necessity to remove skull to provide electrophysiological access to the brain.
 With 2 mW time-averaged laser power, we observed no change in firing rate $\ge$ 2~mm from the recording site.
-This spatial profile was consistent across cortical areas examined (Figure~\ref{fig:ephys}D), and comparable to previous reports of functional resolution using laser-scanning photostimulation (\cite{Li2019SpatiotemporalCircuits}, \cite{Pinto2019Task-DependentRegions}).
+This spatial profile was consistent across cortical areas examined (Figure~\ref{fig:ephys}D), and comparable to previous reports of functional resolution using laser-scanning photostimulation (\citealp{Li2019SpatiotemporalCircuits}, \citealp{Pinto2019Task-DependentRegions}).
 Optogenetic suppression of spiking also decreased as a function of cortical axial depth, with weaker suppression observed $\ge$ 1 - 1.5~mm from the cortical surface (Figure~\ref{fig:ephys}A,E).
 As expected, both the axial and lateral spread of photoinhibition increased with higher laser power (Figure~\ref{fig:ephys}E), with robust silencing effects measured 2 mm below the brain surface using higher power stimulation.
 Depending on the thickness of cortex at the stereotaxic location of stimulation, this means that deeper cortical and/or subcortical brain areas could be directly impacted with high-power stimulation conditions in transgenic mice with brain-wide opsin expression.
@@ -441,7 +425,7 @@ Depending on the thickness of cortex at the stereotaxic location of stimulation,
 We also quantified the neural `rebound' response following laser offset.
 Rebound refers to the transient increase in firing rate above baseline levels that can occur following cessation of optogenetic photocurrents.
 These effects can be mediated via intrinsic biophysical or synaptic properties and/or complex network effects as the circuit recovers from perturbation.
-Rebound responses are dependent on stimulation parameters, such as duration, laser attenuation duration (ramp-down), and laser power, as well as opsin and transgenic mouse line (\cite{Li2019SpatiotemporalCircuits}).
+Rebound responses are dependent on stimulation parameters, such as duration, laser attenuation duration (ramp-down), and laser power, as well as opsin and transgenic mouse line (\citealp{Li2019SpatiotemporalCircuits}).
 To assess post-laser changes in firing rate in our calibration experiment, we compared the relative change in firing rate across the pre- and post-laser periods (500~ms; Figure~\ref{fig:ephys}C Top).
 Consistent with previous reports, we observed power-dependent increases in rebound activity, with significant rebound effects at all laser powers above 1~mW (Figure~\ref{fig:ephys}F).
 
@@ -455,22 +439,22 @@ To demonstrate the efficacy of our system in achieving this goal, we performed b
 
 \subsubsection{Delayed-response somatosensory discrimination}
 
-To establish whether Zapit could causally dissociate spatial and temporal neural processes, we trained mice on a delayed-response sensory discrimination task (Figure~\ref{fig:ALM_behav_verification}A; \cite{Gauld2024APerception}).
+To establish whether Zapit could causally dissociate spatial and temporal neural processes, we trained mice on a delayed-response sensory discrimination task (Figure~\ref{fig:ALM_behav_verification}A; \citealp{Gauld2024APerception}).
 Head-fixed mice received bilateral whisker stimulation (Stimulus epoch; 1~s), and reported the side receiving the stronger stimulus with directional licking following a short delay (Delay epoch; 1~s; Figure~\ref{fig:ALM_behav_verification}A-i).
 In expert mice, we causally tested 17 bilateral sites spanning the dorsal cortex (Figure~\ref{fig:ALM_behav_verification}A-ii).
 On 50\% of trials, a single bilateral site was stimulated during either the Stimulus or Delay epoch.
 Mice performed with high accuracy on control trials without laser stimulation (P(Correct) = 0.89 + 0.08; mean ± std across 76 sessions from 4 mice).
-However, consistent with previous work (\cite{Guo2014FlowMice}), we found epoch- and site-specific photoinhibition effects on task performance (Figure~\ref{fig:ALM_behav_verification}A-iii).
+However, consistent with previous work (\citealp{Guo2014FlowMice}), we found epoch- and site-specific photoinhibition effects on task performance (Figure~\ref{fig:ALM_behav_verification}A-iii).
 During the Stimulus epoch, only inhibition of barrel cortex and anterolateral motor cortex (ALM) significantly impaired correct choices.
 Barrel cortex is the area of primary somatosensory cortex (S1) that receives input from the whiskers, and ALM is a premotor cortical area involved in planning tongue movements, so inactivating these regions during the sensory processing epoch is expected to impair the animal’s ability to perform the task.
-During the delay epoch, we found particularly robust effects of ALM inactivation on choice accuracy and reaction time, consistent with this area being critical for motor planning and short-term memory maintenance (\cite{Guo2014FlowMice}, \cite{Li2016RobustPlanning}).
+During the delay epoch, we found particularly robust effects of ALM inactivation on choice accuracy and reaction time, consistent with this area being critical for motor planning and short-term memory maintenance (\citealp{Guo2014FlowMice}, \citealp{Li2016RobustPlanning}).
 We then performed unilateral inactivation experiments targeting ALM and observed robust ipsilateral choice biases, consistent with contralateral hemispheric motor-processing (Figure~\ref{fig:ALM_behav_verification}A-iv).
 As expected from our electrophysiological quantification, behavioral effects were power-dependent, saturating at \textasciitilde2~mW (Figure~\ref{fig:ALM_behav_verification}A-v).
 Zapit was therefore able to confirm epoch-specific causal links between different cortical areas and distinct behavioral processes.
 
 \subsubsection{Visual change detection}
 
-To demonstrate the versatility of Zapit across task designs, we performed a separate set of experiments in mice trained to report changes in the temporal frequency of a drifting visual stimulus (Figure~\ref{fig:ALM_behav_verification}B-i-iii; \cite{Orsolic2021MesoscaleDecision-making.}).
+To demonstrate the versatility of Zapit across task designs, we performed a separate set of experiments in mice trained to report changes in the temporal frequency of a drifting visual stimulus (Figure~\ref{fig:ALM_behav_verification}B-i-iii; \citealp{Orsolic2021MesoscaleDecision-making.}).
 On control trials without laser stimulation, mice showed near 100\% performance when the stimulus change was easy to detect.
 As expected for a visually-guided task, bilateral inactivation of primary visual cortex (V1) produced clear deficits in performance, with higher laser power resulting in stronger impairment (Figure~\ref{fig:ALM_behav_verification}B-iv).
 In contrast, inactivation of S1 did not significantly impact behavior (Figure~\ref{fig:ALM_behav_verification}B-v, consistent with the task having no somatosensory component).
@@ -479,7 +463,7 @@ We therefore show that Zapit can also be used to generate robust and selective i
 
 \subsubsection{Visual discrimination}
 
-To explore the effective spatial resolution of this inactivation approach with Zapit, we implemented a fine-scale causal mapping experiment in mice tasked to report the location of visual stimuli by turning a wheel (Figure~\ref{fig:ALM_behav_verification}C-i,ii; \cite{InternationalBrainLaboratory2021StandardizedMice, InternationalBrainLaboratory2025ABehaviour}).
+To explore the effective spatial resolution of this inactivation approach with Zapit, we implemented a fine-scale causal mapping experiment in mice tasked to report the location of visual stimuli by turning a wheel (Figure~\ref{fig:ALM_behav_verification}C-i,ii; \citealp{InternationalBrainLaboratory2021StandardizedMice, InternationalBrainLaboratory2025ABehaviour}).
 The stimulus-set comprised 52 bilateral sites positioned at 0.5~mm intervals covering a large network of frontal, motor, and somatosensory cortical areas.
 Photoinhibition of frontal motor cortex sites produced robust increases in reaction time (Figure~\ref{fig:ALM_behav_verification}C-iii left).
 In contrast, stimulation at other motor and somatosensory sites produced modest but significant decreases in reaction time.
@@ -533,56 +517,56 @@ Zapit is a complete and accessible solution for laser-scanning optogenetics.
 The components are commercially available, and the modular system is uniquely flexible to accommodate a diversity of experimental needs.
 The \href{https://github.com/Zapit-Optostim/zapit}{Github repository} contains complete build instructions, parts lists, and visual aids: no prior expertise is required for implementation.
 The software is fully documented and will be continually maintained and updated by developers and experimentalists.
-Known software and hardware issues are actively raised and resolved through \href{https://github.com/Zapit-Optostim/zapit/issues}{Zapit's Github issues page}. 
+Known software and hardware issues are actively raised and resolved through \href{https://github.com/Zapit-Optostim/zapit/issues}{Zapit's Github issues page}.
 
 Zapit comprises several technical developments that make it more versatile and user-friendly than any previously published system.
 These include detailed configurations for multiple lasers and opsins, user-friendly GUIs for automated stereotaxic calibration and stimulus design, and a cross-platform API for integration into diverse behavioral and experimental protocols across laboratories.
 Additionally, the modular design facilitates future developments, such as multiplexing two lasers in one setup.
 
 Zapit produced robust behavioral effects across a variety of experimental protocols and brain regions with VGAT-ChR2 mice.
-We validated the efficacy of inactivation in this mouse strain with simultaneous electrophysiology recordings and demonstrate that the effective radius of inactivation depends on the laser power used, but was \textasciitilde{}1~mm at powers for which we observed significant behavioral perturbations. 
+We validated the efficacy of inactivation in this mouse strain with simultaneous electrophysiology recordings and demonstrate that the effective radius of inactivation depends on the laser power used, but was \textasciitilde{}1~mm at powers for which we observed significant behavioral perturbations.
 
-There are other effective approaches for rapid programmatic photostimulation in head-fixed behavioral tasks: those based on digital micro-mirror devices (DMDs -- \cite{Chong2020ManipulatingPerception}) or spatial lights modulators (SLMs --  \cite{Russell2022All-opticalMice, Gauld2024APerception}).
+There are other effective approaches for rapid programmatic photostimulation in head-fixed behavioral tasks: those based on digital micro-mirror devices (DMDs -- \citealp{Chong2020ManipulatingPerception}) or spatial lights modulators (SLMs --  \citealp{Russell2022All-opticalMice, Gauld2024APerception}).
 DMD-based solutions, such as the \href{https://www.mightexbio.com/polygon/}{Mightex Polygon}, provide a faster pattern-switching time but due to light loss, these systems require \textit{\textasciitilde{}100 times} more laser power than Zapit to cover the mouse dorsal cortex.
 SLM-based solutions are more light efficient, but devices with high resolution are very expensive and are slower than DMDs.
-Therefore, Zapit's scanner-based approach provides the most cost-effective and compact solution for the majority of optogenetics experiments involving the dorsal cortex. 
+Therefore, Zapit's scanner-based approach provides the most cost-effective and compact solution for the majority of optogenetics experiments involving the dorsal cortex.
 
 \subsection{Practical considerations when using Zapit}
-\subsubsection{Surgical procedures} 
+\subsubsection{Surgical procedures}
 To maximize targeting flexibility and accuracy, we recommend a head-fixation device that provides an unobstructed view of the entire dorsal surface of the skull, and marking structural reference points during surgery.
-We further recommend a thin layer of transparent glue (\cite{Zatka-Haas2021SensoryDecision, Coen2023MouseDecisions}) or `bone' cement (200-300~$\mu m$ thick) to protect the skull, as thicker layers of cement (0.5-1~mm) may reduce stimulation efficacy.
-For general details of \textit{in vivo} surgical and behavioral procedures in head-fixed mice we direct the reader to existing resources (e.g. \cite{Guo2014FlowMice, Guo2014ProceduresMice} ). 
+We further recommend a thin layer of transparent glue (\citealp{Zatka-Haas2021SensoryDecision, Coen2023MouseDecisions}) or `bone' cement (200-300~$\mu m$ thick) to protect the skull, as thicker layers of cement (0.5-1~mm) may reduce stimulation efficacy.
+For general details of \textit{in vivo} surgical and behavioral procedures in head-fixed mice we direct the reader to existing resources (e.g. \citealp{Guo2014FlowMice, Guo2014ProceduresMice} ).
 
 \subsubsection{Laser and power selection}
-Zapit is compatible with any laser source that supports fast analog power modulation. 
-As a guideline, for VGAT-ChR2 mice we recommend 1--2~mW time-averaged power at the skull surface. 
-With this line and these powers we consistently observe strong behavioral effects, with spatiotemporal resolution comparable to that reported in other studies. 
-Light loss through the skull and bone cement is around 50\% \citep{Guo2014FlowMice}. 
-Heating at these powers is minimal, reducing the risk of heat-induced changes in neural activity \citep{Stujenske2015ModelingOptogenetics}. 
-Nevertheless, \textit{post hoc} histology is strongly recommended to assess tissue integrity and confirm opsin expression. 
+Zapit is compatible with any laser source that supports fast analog power modulation.
+As a guideline, for VGAT-ChR2 mice we recommend 1--2~mW time-averaged power at the skull surface.
+With this line and these powers we consistently observe strong behavioral effects, with spatiotemporal resolution comparable to that reported in other studies.
+Light loss through the skull and bone cement is around 50\% \citep{Guo2014FlowMice}.
+Heating at these powers is minimal, reducing the risk of heat-induced changes in neural activity \citep{Stujenske2015ModelingOptogenetics}.
+Nevertheless, \textit{post hoc} histology is strongly recommended to assess tissue integrity and confirm opsin expression.
 Regular power measurements at the sample are essential for stability and reproducibility.
 
 
 \subsubsection{Targeting precision}
-With transgenic lines expressing opsin brain-wide (including VGAT-ChR2 mice), stimulation with high laser powers (e.g. 4~mW or above at the sample) may cause off-target behavioral effects due to light-scatter laterally and axially through cortex (\cite{Li2019SpatiotemporalCircuits,Babl2019TheInterneurons}).
-Ideally, laser parameters including power, duration and ramp-down should be informed by electrophysiological recordings and/or modeling of light propagation through the brain (\cite{Yona2016RealisticApplications}).
+With transgenic lines expressing opsin brain-wide (including VGAT-ChR2 mice), stimulation with high laser powers (e.g. 4~mW or above at the sample) may cause off-target behavioral effects due to light-scatter laterally and axially through cortex (\citealp{Li2019SpatiotemporalCircuits,Babl2019TheInterneurons}).
+Ideally, laser parameters including power, duration and ramp-down should be informed by electrophysiological recordings and/or modeling of light propagation through the brain (\citealp{Yona2016RealisticApplications}).
 If limiting the impact of light dispersion is critical, opsins can be expressed via targeted viral injections.
 Under these conditions, expression can be restricted to highly localized circuits, genetically and anatomically defined subpopulations and sub-cellular compartments, and verified using \textit{post-hoc} histology.
 
 \subsubsection{Sensory confounds}
-Fast movements of galvo-mirrors generate auditory cues that can influence behavior, and we therefore recommend moving the galvo-mirrors on all trials, including those where the laser power is 0~mW. 
+Fast movements of galvo-mirrors generate auditory cues that can influence behavior, and we therefore recommend moving the galvo-mirrors on all trials, including those where the laser power is 0~mW.
 Zapit behaves this way by default.
 The galvo drive waveforms are shaped to reduce noise emission, and the scanner unit can also be enclosed in sound-attenuating housing to further mitigate these effects.
-To accurately interpret optogenetic behavioral effects, it is also critical to mask the mouse's ability to see the laser, whether through internal and/or external retinal stimulation (\cite{Danskin2015OptogeneticsArtifact, Weiler2026ProtocolVivo}).
+To accurately interpret optogenetic behavioral effects, it is also critical to mask the mouse's ability to see the laser, whether through internal and/or external retinal stimulation (\citealp{Danskin2015OptogeneticsArtifact, Weiler2026ProtocolVivo}).
 We recommend masking laser-emitted light with color-matched LEDs placed above the mouse on every trial, matched to the stimulation profile of the laser (e.g., 40~Hz), and using a well-lit setup.
-Extra caution should be taken when using longer wavelengths which easily propagate through brain tissue to the retina, and can be more difficult to mask (\cite{Danskin2015OptogeneticsArtifact, Weiler2026ProtocolVivo}).
-Sensory confounds can also be addressed through repeated experiments and analyses in control animals that do not express the opsin (\cite{Gauld2025AActions}).
+Extra caution should be taken when using longer wavelengths which easily propagate through brain tissue to the retina, and can be more difficult to mask (\citealp{Danskin2015OptogeneticsArtifact, Weiler2026ProtocolVivo}).
+Sensory confounds can also be addressed through repeated experiments and analyses in control animals that do not express the opsin (\citealp{Gauld2025AActions}).
 
-\subsubsection{Target region selection and interpretation} 
+\subsubsection{Target region selection and interpretation}
 A major advantage of Zapit is the capacity to rapidly survey causal effects across the entire dorsal cortex.
 However, skull curvature and thickness should be considered, particularly in more lateral cortical regions.
 Differences in opsin expression due to tropisms in viral vectors or transgenic lines can also influence results.
-Users may need to perform further experiments to determine whether observed effects are a direct result of regional inactivation, or derived from downstream brain regions (\cite{Wolff2018TheManipulations, Allen2017ApplicationSignaling}).
+Users may need to perform further experiments to determine whether observed effects are a direct result of regional inactivation, or derived from downstream brain regions (\citealp{Wolff2018TheManipulations, Allen2017ApplicationSignaling}).
 
 \subsection{Good practice: measures to report when using Zapit}
 We encourage Zapit users to report a minimal set of standardized parameters to aid replication, comparability, and consistency across experiments and laboratories:
@@ -592,13 +576,13 @@ We encourage Zapit users to report a minimal set of standardized parameters to a
     \item Stimulation frequency and profile (e.g. 40~Hz sinusoid), and duty cycle
     \item Laser stimulation and ramp-down duration
     \item Specifications and duty cycle of any masking light
-    \item     Precise stimulation coordinates 
+    \item     Precise stimulation coordinates
 
 \end{itemize}
 
 \subsection{In Closing}
 We hope Zapit is a tool that will grow and find a broad user base throughout the scientific community.
-Potential new users are welcome to contact us for assistance in building or setting up the system. 
+Potential new users are welcome to contact us for assistance in building or setting up the system.
 % ---- end discussion.tex ----
 % ---- begin methods.tex ----
 \section{Methods}
@@ -650,13 +634,13 @@ Offline spike sorting was performed with Kilosort v4 \citep{Pachitariu2024SpikeK
 Units were classified as putative neurons only if their spike waveforms exhibited a clear spatial decay across adjacent probe channels.
 Both single and multi units that showed low percentage of missing spikes, low refractory period violations, and minimal drift across time were included in the analysis.
 Units exhibiting substantial drift that led to a clear loss of spikes over time were excluded from further analysis.
-Additional details can be found in \cite{Gauld2025AActions}.
+Additional details can be found in \citealp{Gauld2025AActions}.
 M2 recordings across laser powers (Figure~\ref{fig:ephys}E) were made in two mice.
 The M2 and V1 distance-calibration recordings (Figure~\ref{fig:ephys}D) were made in a single mouse.
 
 \subsection{Delayed-response somatosensory discrimination task}
 
-The task design and experimental set-up were based on previous work (\cite{Gauld2024APerception,Gauld2025AActions}).
+The task design and experimental set-up were based on previous work (\citealp{Gauld2024APerception,Gauld2025AActions}).
 Briefly, mice were head-fixed in a perspex tube and air-puff stimuli (0 - 10~Hz; 20~ms pulse duration, 1 s sequence duration) were delivered to the left/right whiskers.
 Following a short delay period (1 s), mice reported their choice with directional licking to obtain water rewards (3~$\mu l$).
 The target response side was cued by the whisker side receiving the faster air-puff sequence, and randomized on trials with matched bilateral stimulation.
@@ -691,7 +675,7 @@ Choice-biasing experiments comprised 11 sessions from 3 mice.
 
 
 \subsection{Visual change detection task for proof of principle experiments using Zapit}
-The design of the behavioral task and stages of behavioral training were as previously described in \cite{Orsolic2021MesoscaleDecision-making.}.
+The design of the behavioral task and stages of behavioral training were as previously described in \citealp{Orsolic2021MesoscaleDecision-making.}.
 
 Mice were head-fixed and placed on a polystyrene wheel.
 Two monitors (21.5", 1920 x 1080, 60~Hz) were placed on each side of the mouse at approximately 20~cm from the mouse head.
@@ -730,10 +714,10 @@ We quantified differences between area silencing trials and intact cortex trials
 
 \subsection{Visual discrimination task}
 
-Surgical procedures and behavioral training followed established protocols (\cite{InternationalBrainLaboratory2021StandardizedMice,InternationalBrainLaboratory2025ABehaviour}) with minor modifications.
+Surgical procedures and behavioral training followed established protocols (\citealp{InternationalBrainLaboratory2021StandardizedMice,InternationalBrainLaboratory2025ABehaviour}) with minor modifications.
 Mice were water-restricted and trained on the 2-AFC task using standardized training rigs.
 Mice were transitioned to the laser-scanning optogenetics (Zapit) rig upon reaching the "training 2b" performance criterion.
-The behavioral apparatus was adapted from the standard IBL electrophysiology rig design (\cite{InternationalBrainLaboratory2021StandardizedMice}).
+The behavioral apparatus was adapted from the standard IBL electrophysiology rig design (\citealp{InternationalBrainLaboratory2021StandardizedMice}).
 
 A grid of 52 bilateral stimulation sites was positioned at 0.5 mm intervals to cover secondary motor cortex, primary motor cortex, the upper limb region of somatosensory cortex as well as parts of anterior cingulate and prelimbic cortices.
 
@@ -743,95 +727,10 @@ On each trial, there was a 50–70\% probability that one bilateral site pair wo
 Generally, the system was run with 2~mW laser power, with some exceptions for sessions in which 3~mW was used.
 To control for visual artifacts, a 473~nm LED masking light was positioned near the laser-scanning source and was activated on every trial coincident with the laser stimulation window, regardless of whether actual stimulation occurred.
 % ---- end methods.tex ----
-% ---- begin contributions.tex ----
-\section{Author Contributions}
-\begin{center}
-\tikzset{
-    tile/.style = {
-        minimum size=4.5mm,
-        inner sep=0,
-        outer sep=0,
-        anchor=center,
-    },
-    row label/.style={
-        anchor=east,
-        inner sep=0,
-        outer sep=1mm,
-        font=\fontsize{8}{8}\selectfont,
-    },
-}
-\def\hi{100}
-\def\mid{50}
-\def\lo{20}
-\colorlet{tilecolor}{green!10!orange}
-\begin{tikzpicture}[x=4.5mm, y=-4.5mm]
-\foreach \a [count=\n] in {
-        ML,
-        OMG,
-        MTQ,
-        AM,
-        CB,
-        JL,
-        NM,
-        GN,
-        QPM,
-        ST,
-        PV,
-        AYY,
-        NZ,
-        AA,
-        CAD,
-        JCE,
-        SBH,
-        TDMF,
-        PC,
-        RAAC,
-    } {
-        \node[anchor=south, inner sep=0, outer sep=2mm,
-              font=\fontsize{8}{8}\selectfont]
-            at (\n, 0) {\rotatebox{90}{\a}};
-    }
-    \foreach \a [count=\i] in {
-        Prototype hardware design,
-        Prototype software design,
-        Final hardware design,
-        Final software design,
-        CAD \& machining,
-        Benchmarking and testing,
-        Electrophysiological experiments,
-        Behavioral validation experiments,
-        Writing---Original Draft,
-        Writing---Reviewing and Editing,
-        Funding acquisition,
-    } {
-        \node[row label] at (0.5,\i) {\a};
-    }
-
-\foreach \y [count=\n] in {
-        {\mid,0,\hi,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,\hi},        % 1  Prototype hardware design
-        {0,0,\hi,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,\hi},           % 2  Prototype software design
-        {0,0,0,\hi,0,0,0,\mid,0,0,0,0,0,0,0,0,0,0,\hi,\lo},      % 3  Final hardware design
-        {0,0,0,0,0,0,0,0,\lo,0,\lo,0,0,0,0,0,0,0,0,\hi},         % 4  Final software design
-        {0,0,0,\hi,0,0,0,0,0,\hi,0,0,0,0,0,0,0,0,\mid,0},        % 5  CAD & machining
-        {\hi,\hi,\hi,\hi,0,0,0,0,0,0,0,0,0,0,0,0,0,0,\mid,\hi},  % 6  Benchmarking and testing
-        {0,\mid,0,0,\hi,\mid,\lo,0,0,0,0,0,0,0,\lo,0,0,0,0,0},      % 7  Electrophysiological experiments
-        {\hi,\hi,\lo,0,0,0,\hi,0,0,0,0,\mid,\mid,0,0,0,0,0,0,0},  % 8  Behavioral validation experiments
-        {\hi,\hi,\mid,\hi,0,0,0,0,0,0,0,0,0,0,0,0,0,0,\hi,\hi},   % 9  Writing: Original Draft
-    {\mid,\mid,\mid,\mid,\mid,\mid,\mid,\mid,\mid,\mid,\mid,\mid,\mid,\mid,\mid,\mid,\mid,\mid,\mid,\mid}, % 10 Writing: Reviewing and Editing
-        {\hi,\hi,0,0,0,0,0,0,0,0,0,0,0,\hi,\hi,\hi,\hi,\hi,\hi,0},  % 11 Funding acquisition
-    } {
-        \foreach \x [count=\m] in \y {
-            \node[fill=tilecolor!\x!white, tile] at (\m,\n) {};
-        }
-    }
-\end{tikzpicture}
-\end{center}
-% ---- end contributions.tex ----
 
 
-%%
-% Close
-\paragraph*{Acknowledgments}
+
+\section{Acknowledgments}
 We thank Andy Peters for providing us with a MATLAB script for displaying a top-down view of the Allen Atlas in stereotaxic coordinates, and inspiring us with the Neuropixels Trajectory Explorer (\href{https://doi.org/10.5281/zenodo.7043459}{10.5281/zenodo.7043459}).
 We thank Charu Reddy and Matteo Carandini for sharing resources to facilitate development, and Michael Krumin and Simon Weiler for valuable conversations.
 Dale Elgar from \href{https://www.cosys.org.uk/}{COSYS Ltd.} did most of the custom enclosure design for additional acoustic attenuation.
@@ -843,18 +742,18 @@ C.A.D. was supported by UKRI grant EP/Y008804/1.
 S.B.H., N.M., and A.Y. were supported by The Wellcome International Brain Laboratory award (216324/Z/19/Z) and the Simons Culmination award (SFI-AN-NC-GB-IBL-00002672-07).
 The Advanced Microscopy Facility and individual labs were also supported by the Sainsbury Wellcome Centre’s core provided by Wellcome (219627/Z/19/Z) and the Gatsby Charitable Foundation (GAT3755).
 
-\paragraph*{Data Availability Statement}
+\section{Data Availability Statement}
 This project is developed entirely in the open: all code is available at \href{https://github.com/Zapit-Optostim}{github.com/Zapit-Optostim}.
 The Zapit software is licensed under LGPL-2.1 and the CAD files under BSD-3-Clause.
 The manuscript text and figures are licensed under CC BY 4.0, and the figure data and code under the MIT licence.
 Code and processed data required to re-create our figures is shared at \href{https://github.com/Zapit-Optostim/Zapit-eLife}{github.com/Zapit-Optostim/Zapit-eLife}.
 
 
-\paragraph*{Competing Interests}
+\section{Competing Interests}
 The authors declare no competing interests.
 
 \clearpage
-\printbibliography
+\bibliography{references}
 
 % ---- begin supp.tex ----
 
@@ -864,8 +763,8 @@ The authors declare no competing interests.
 \newcommand{\bdot}{\Large $\bullet$}
 
 % eLife figure supplements are numbered after their parent figure, e.g. "Figure 2---figure supplement 1".
-% Call \figsupp{<parent figure>}{<supplement>} before each supplement's figure environment.
-\newcommand{\figsupp}[2]{\renewcommand{\thefigure}{#1---figure supplement #2}}
+% Call \suppfignum{<parent figure>}{<supplement>} before each supplement's figure environment.
+\newcommand{\suppfignum}[2]{\renewcommand{\thefigure}{#1---figure supplement #2}}
 \clearpage
 
 \section{Table and figure supplements}
@@ -873,7 +772,7 @@ The authors declare no competing interests.
     \centering
 \caption{\textbf{Comparison of Zapit to related systems.}
 `\textit{Code available}' indicates whether readers can easily download code capable of running the author's random-access optostimulation paradigm.
-Only \cite{Pinto2019Task-DependentRegions} provide a \href{https://github.com/BrainCOGS/laserGalvoControl}{clear standalone codebase} for running their optogenetic system.
+Only \citealp{Pinto2019Task-DependentRegions} provide a \href{https://github.com/BrainCOGS/laserGalvoControl}{clear standalone codebase} for running their optogenetic system.
 Heindorf, et al. have shared their code embedded within their LabVIEW-based multiphoton scanning software, \href{https://sourceforge.net/projects/iris-scanning/}{Iris}, but this is not documented.
 Also, while all previous systems are of high quality, they are very specific to the published experimental protocol and so do not have a `\textit{Flexible configuration}'.
 No published study has an associated \textit{CAD model} or build instructions.
@@ -887,17 +786,17 @@ As far as we know, only Zapit has a GUI for building stimulus sets in sterotaxic
 Study & \makecell{Code \\ available} & \makecell{CAD \\ model} & \makecell{Stereotaxic \\ coords} & \makecell{Flexible  configuration} & \makecell{Fully\\documented}\\
 \hline
 \hline
-\cite{Guo2014FlowMice}                   &       &       & \bdot &       &       \\
+\citealp{Guo2014FlowMice}                   &       &       & \bdot &       &       \\
 \hline
-\cite{Heindorf2018MouseFeedback}         &       &       &       &       &       \\
+\citealp{Heindorf2018MouseFeedback}         &       &       &       &       &       \\
 \hline
-\cite{Pinto2019Task-DependentRegions}    & \bdot &       & \bdot &       &       \\
+\citealp{Pinto2019Task-DependentRegions}    & \bdot &       & \bdot &       &       \\
 \hline
-\cite{Keller2020FeedbackCortex}          &       &       &       &       &       \\
+\citealp{Keller2020FeedbackCortex}          &       &       &       &       &       \\
 \hline
-\cite{Esmaeili2021RapidResponse}         &       &       & \bdot &       &       \\
+\citealp{Esmaeili2021RapidResponse}         &       &       & \bdot &       &       \\
 \hline
-\cite{Voitov2022CorticalMemory}          &       &       & \bdot &       &       \\
+\citealp{Voitov2022CorticalMemory}          &       &       & \bdot &       &       \\
 \hline
 \textbf{Zapit}                           & \bdot & \bdot & \bdot & \bdot & \bdot \\
 \hline
@@ -906,7 +805,7 @@ Study & \makecell{Code \\ available} & \makecell{CAD \\ model} & \makecell{Stere
 }
 \end{table}
 
-\figsupp{2}{1}
+\suppfignum{2}{1}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{Figures/Supplementary_Figs/figS2_Optical_Design/fig10_Optical_design_and_measurements.png}
@@ -926,7 +825,7 @@ The size and shape of the beam is very similar across all positions, showing the
 
 
 
-\figsupp{2}{2}
+\suppfignum{2}{2}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/Supplementary_Figs/figS3_Dual_Laser/Dual-laser setup.png}
@@ -940,7 +839,7 @@ Ongoing changes to Zapit will allow for dual-laser control in the future.}
 
 
 
-\figsupp{4}{1}
+\suppfignum{4}{1}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{Figures/Supplementary_Figs/figS4_Surgery/surgery.png}
@@ -966,7 +865,7 @@ This is critical for accurate sample calibration and alignment.}
     \label{fig:Fig4_supp}
 \end{figure}
 
-\figsupp{7}{1}
+\suppfignum{7}{1}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{Figures/Supplementary_Figs/figS5_Laser_Comparisons/Fig5_supp.png}
