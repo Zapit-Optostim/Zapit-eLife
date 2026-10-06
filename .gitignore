@@ -1,1 +1,4 @@
 .DS_Store
+
+# eLife upload folder (symlinks to files in the repo)
+submission_files/
