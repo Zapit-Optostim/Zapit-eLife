@@ -131,7 +131,7 @@ Detailed build instructions, operating guidelines and support are available via 
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=1\textwidth]{Figures/fig_1_system_overview/fig1_system_overview.png}
+\includegraphics[width=1\textwidth]{Figures/fig_1_system_overview/Figure_1.png}
 \caption{\textbf{Zapit system overview. A.}
 System schematic.
 The unexpanded laser beam (cyan) is directed onto the galvos and then targeted to the sample via a dichroic mirror.
@@ -180,7 +180,7 @@ Future developments to Zapit's control code will facilitate this use-case.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=1\textwidth]{Figures/fig_2_hardware_design/fig2_hardwarecomponents.png}
+\includegraphics[width=1\textwidth]{Figures/fig_2_hardware_design/Figure_2.png}
 \caption{\textbf{Hardware components of Zapit.}
 All parts, except for the laser and laser adaptor, are available from Thorlabs, with appropriate part numbers.
 Dashed arrows indicate where sections should be joined.
@@ -210,7 +210,7 @@ Following scanner calibration, the user can manually trigger `on the fly' target
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{Figures/fig_3_scanner_calibration/fig3_scanner_calibration.png}
+\includegraphics[width=1\textwidth]{Figures/fig_3_scanner_calibration/Figure_3.png}
 \caption{\textbf{Scanner calibration using the Zapit GUI. A}.
 (i) The Zapit GUI displays a live image feed from the camera.
 This example shows the dorsal surface of the skull with the two blue arrows indicating the location of bregma and a position 3~mm anterior from bregma.
@@ -233,7 +233,7 @@ Once stimulus calibration is complete, photostimulation target locations can be 
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=1\textwidth]{Figures/fig_4_sample_calibration/fig4_sample_calibration.png}
+\includegraphics[width=1\textwidth]{Figures/fig_4_sample_calibration/Figure_4.png}
 \caption{\textbf{Sample calibration using the Zapit GUI. A}.
 (i-ii) Sample calibration.
 The user defines the position of the skull in the FoV using two landmarks, such as bregma and bregma +3~mm.
@@ -263,7 +263,7 @@ The configuration file can be loaded via the main Zapit GUI enabling photostimul
 
 \begin{figure}
 \centering
-\includegraphics[width=1\textwidth]{Figures/fig_5_stim_editor/fig5_stim_editor.png}
+\includegraphics[width=1\textwidth]{Figures/fig_5_stim_editor/Figure_5.png}
 \caption{\textbf{Generating photostimulation conditions using the interactive stimulus editor. A}.
 Screenshot of the stimulus config editor.
 The user adds or modifies stimulus locations by clicking on the top-down view of the brain.
@@ -304,7 +304,7 @@ The Zapit \texttt{zapit\_tcp\_bridge} package contains Zapit clients for MATLAB,
 There is \href{https://github.com/Zapit-Optostim/zapit-tcp-bridge/blob/main/Message_Protocol.md}{detailed documentation} on the message protocol, allowing users to write clients in the language of their choice.
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{Figures/fig_6_triggering/fig6_triggering.png}
+\includegraphics[width=1\textwidth]{Figures/fig_6_triggering/Figure_6.png}
 \caption{\textbf{Reliable and precise photostimulation. A.}MATLAB code snippet to run a stimulation paradigm with TTL input, with users being able to adjust trial type, power, duration, and delay from TTL trigger, as well as logging information \textbf{B.} Same as A, but configured to communicate over TCP/IP for multi-language support and broader experimental integration.
 \textbf{C.} Communication schematic for inputs and outputs.
 Solid lines indicate necessary connections, dashed lines indicate optional connections to and from a data acquisition device (DAQ).
@@ -348,7 +348,7 @@ When considering the maximal laser power required for an experiment, it is worth
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1.0\textwidth]{Figures/fig_7_galvo_position/fig7_galvo_power.png}
+\includegraphics[width=1.0\textwidth]{Figures/fig_7_galvo_position/Figure_7.png}
 \caption{\textbf{Beam blanking and pointing reproducibility. A}.
 Photostimulation of three points with the beam blanked (switched off) as it travels between them.
 The imaged laser spots are saturated so their size does not reflect stimulation area.
@@ -378,7 +378,7 @@ Inset: Zoom (red square) to show nonlinearity at \textasciitilde{}0~V, with line
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=1.0\textwidth]{Figures/fig_8_ephys_cal/fig8_ephys_cal.png}
+\includegraphics[width=1.0\textwidth]{Figures/fig_8_ephys_cal/Figure_8.png}
 \caption{\textbf{Electrophysiological validation}.
 \textbf{A.} Left, neural activity was recorded in awake in VGAT-ChR2-EYFP mice using Cambridge Neurotech silicon probes.
 Optogenetic effects were characterized as a function of lateral distance (targeting the laser at 0-3~mm away from the recording site).
@@ -476,7 +476,7 @@ Together, these behavioral experiments demonstrate that Zapit enables precise an
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=1.0\textwidth]{Figures/fig_9_behavior/fig9_behavior.png}
+\includegraphics[width=1.0\textwidth]{Figures/fig_9_behavior/Figure_9.png}
 \caption{\textbf{Behavioral validation experiments.}
 \textbf{A}. Whisker discrimination
 \textbf{(i)} Overview of task and trial design.
@@ -808,7 +808,7 @@ Study & \makecell{Code \\ available} & \makecell{CAD \\ model} & \makecell{Stere
 \suppfignum{2}{1}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{Figures/Supplementary_Figs/figS2_Optical_Design/fig10_Optical_design_and_measurements.png}
+    \includegraphics[width=0.9\linewidth]{Figures/Supplementary_Figs/figS2_Optical_Design/Figure_2-figure_supplement_1.png}
  \caption {\textbf{Resolution of the scanning system. }\textbf{A}. Theoretical and measured X/Y PSF based on a f=150~mm objective lens, a 0.8~mm beam and a Coherent Obis 473~nm 75~mW laser.
 The empirical data were obtained by translating the focused laser spot over the edge of a razor blade and measuring light intensity with a photodiode placed under the blade.
 This procedure yields an intensity curve resembling a cumulative Gaussian, which can be fitted as such and converted to a probability density function.
@@ -828,7 +828,7 @@ The size and shape of the beam is very similar across all positions, showing the
 \suppfignum{2}{2}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{Figures/Supplementary_Figs/figS3_Dual_Laser/Dual-laser setup.png}
+    \includegraphics[width=0.8\linewidth]{Figures/Supplementary_Figs/figS3_Dual_Laser/Figure_2-figure_supplement_2.png}
     \caption{\textbf{Dual-laser configuration for multiple opsin stimulation and real-time imaging.}
 The Zapit system can be assembled to mount two lasers, both of which can be controlled within one experiment.
 An additional dichroic (Thorlabs) is needed to merge the two beams before the scanners.
@@ -842,7 +842,7 @@ Ongoing changes to Zapit will allow for dual-laser control in the future.}
 \suppfignum{4}{1}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{Figures/Supplementary_Figs/figS4_Surgery/surgery.png}
+    \includegraphics[width=1\linewidth]{Figures/Supplementary_Figs/figS4_Surgery/Figure_4-figure_supplement_1.png}
     \caption{\textbf{In vivo surgical procedures for Zapit-based experiments}.
 All steps should be performed under sterile conditions with appropriate pre- and post-operative care procedures in place.
 \textbf{A}. An anesthetized mouse is installed in a cranial stereotax via bite and ear bars.
@@ -868,7 +868,7 @@ This is critical for accurate sample calibration and alignment.}
 \suppfignum{7}{1}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{Figures/Supplementary_Figs/figS5_Laser_Comparisons/Fig5_supp.png}
+    \includegraphics[width=1\linewidth]{Figures/Supplementary_Figs/figS5_Laser_Comparisons/Figure_7-figure_supplement_1.png}
     \caption{\textbf{Laser tests for linearity, stability and onset responses}.
 We tested Zapit with multiple lasers across a range of price points (3000~GBP - 10,000~GBP) with various wavelengths (450~nm to 594~nm).
 We also used a cheaper, less stable laser, for comparison (Changchun 473~nm).
